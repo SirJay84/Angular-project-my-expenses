@@ -1,0 +1,42 @@
+<p>{{expense_string}} expense works!</p>
+
+<button type="button"(click)="sayMessage()">
+  Trigger alert message
+</button>
+
+<input type="text" [(ngModel)]="expense_string">
+
+<div *ngIf="checker">
+  this is shown when checker is true
+</div>
+
+<ul>
+  <div *ngFor="let exp of expenses">
+    <div  >
+      <li style="color:green">
+      {{ exp.id}} - {{ exp.name }} - {{ exp.amount }} - {{ exp.category }} - {{exp.date}}
+      </li>
+    </div>
+    <ng-template #greaterblock>
+      <p>If isValid is false</p>
+    </ng-template>
+  </div>
+</ul>
+
+<form [formGroup]="itemsformgroup" >
+  <label for="item-name">name</label>
+  <input formControlName="name" id="item-name" type="text" >
+<br>
+  <label for="category">category</label>
+  <input id="category"  formControlName="category" type="text">
+<br>
+
+  <label for="amount">amount</label>
+  <input id="amount" formControlName="amount" type="number">
+<br>
+  <label for="date">date</label>
+  <input id="date" formControlName="date" type="date">
+<br>
+<br>
+  <button (click)="emitItems()">Submit</button>
+</form>
