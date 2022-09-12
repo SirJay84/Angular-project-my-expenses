@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Expense } from './expense-model';
 import { FormsModule,FormControl,FormGroup } from '@angular/forms';
-
+import { ExpenseservicesService } from '../servicesFolder/expenseservices.service';
 @Component({
   selector: 'app-expense',
   templateUrl: './expense.component.html',
@@ -10,23 +10,7 @@ import { FormsModule,FormControl,FormGroup } from '@angular/forms';
 export class ExpenseComponent implements OnInit {
   expense_string : any  = "hi there";
 
-  exp1: Expense = {
-    id:1,
-    name: "Omo",
-    amount: 50,
-    category: "product",
-    date: "string"
-  };
-
-  exp2: Expense = {
-    id:2,
-    name:"Bread",
-    amount:500,
-    category:"product",
-    date:"string"
-  }
-
-  expenses:any = [];
+  
 
   checker:boolean = true;
 
@@ -35,23 +19,40 @@ export class ExpenseComponent implements OnInit {
     this.expense_string = "By there"
   }
   
-  constructor() { 
-    this.expenses.push(this.exp1);
-    this.expenses.push(this.exp2);
+  constructor(private injectedexpensesservices:ExpenseservicesService) { 
+    this.showExpenses()
+  }
+
+  myexpenses : Expense[] = [] 
+  showExpenses() {
+    this.injectedexpensesservices.getExpenses()
+      .subscribe((data:any) => {
+        console.log("data is ",data);
+        this.myexpenses= data;
+        console.log("expenses is ", data);
+      });
   }
 
   itemsformgroup = new FormGroup({
+    user_id:new FormControl(""),
     name : new FormControl(""), 
     category:new FormControl(""), 
     amount:new FormControl(""),
     date:new FormControl(""), 
   })
   
+  items :any= {}
   emitItems(){
-    this.expenses.push(this.itemsformgroup.value);
+    this.items = this.itemsformgroup.value
+    this.injectedexpensesservices.postExpenses(this.items)
+    .subscribe((data: any)=>{
+      this.myexpenses.push(data)
+    })
   
+    
   }
   ngOnInit(): void {
+    
   }
 
 }

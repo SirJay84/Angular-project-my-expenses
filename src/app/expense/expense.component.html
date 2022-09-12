@@ -11,32 +11,44 @@
 </div>
 
 <ul>
-  <div *ngFor="let exp of expenses">
+  <div *ngFor="let exp of myexpenses">
     <div  >
       <li style="color:green">
-      {{ exp.id}} - {{ exp.name }} - {{ exp.amount }} - {{ exp.category }} - {{exp.date}}
+      {{ exp.name }} - {{ exp.amount }} - {{ exp.category }} - {{exp.date}}
       </li>
     </div>
-    <ng-template #greaterblock>
+    <!-- <ng-template #greaterblock>
       <p>If isValid is false</p>
-    </ng-template>
+    </ng-template> -->
   </div>
 </ul>
 
-<form [formGroup]="itemsformgroup" >
+<mat-card class="example-container">
+<mat-form-field [formGroup]="itemsformgroup" >
+  <label for="item-user_id">user_id</label>
+  <input matInput formControlName="user_id" id="item-user_id" type="number" >
+</mat-form-field>
+  <br>
+<mat-form-field>
   <label for="item-name">name</label>
-  <input formControlName="name" id="item-name" type="text" >
+  <input matInput formControlName="name" id="item-name" type="text" >
+</mat-form-field>
 <br>
+<mat-form-field>
   <label for="category">category</label>
-  <input id="category"  formControlName="category" type="text">
+  <input matInput id="category"  formControlName="category" type="text">
+</mat-form-field>
 <br>
-
+<mat-form-field>
   <label for="amount">amount</label>
-  <input id="amount" formControlName="amount" type="number">
+  <input matInput id="amount" formControlName="amount" type="number">
+</mat-form-field>
 <br>
+<mat-form-field>
   <label for="date">date</label>
-  <input id="date" formControlName="date" type="date">
+  <input matInput id="date" formControlName="date" type="date">
+</mat-form-field>
 <br>
 <br>
-  <button (click)="emitItems()">Submit</button>
-</form>
+  <button mat-flat-button color="primary" (click)="emitItems()">Submit</button>
+</mat-card>
